@@ -2,24 +2,6 @@ document.addEventListener('DOMContentLoaded', function() {
  const minusBtns = document.querySelectorAll('.quantity-btn:first-child');
  const plusBtns = document.querySelectorAll('.quantity-btn:last-child');
  
- minusBtns.forEach(btn => {
-     btn.addEventListener('click', function() {
-         const valueSpan = this.nextElementSibling;
-         let value = parseInt(valueSpan.textContent);
-         if (value > 0) {
-             valueSpan.textContent = value - 1;
-         }
-     });
- });
- 
- plusBtns.forEach(btn => {
-     btn.addEventListener('click', function() {
-         const valueSpan = this.previousElementSibling;
-         let value = parseInt(valueSpan.textContent);
-         valueSpan.textContent = value + 1;
-     });
- });
- 
  document.addEventListener('DOMContentLoaded', function() {
     const sortableHeaders = document.querySelectorAll('th.sortable');
     
