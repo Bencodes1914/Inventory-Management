@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="newItem.css">
+        <title>Inventory Management.</title>
+    </head>
+    <body>
+     <header class="header">
+      <div class="header-title">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+              <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+              <line x1="12" y1="22.08" x2="12" y2="12"></line>
+          </svg>
+          Inventory Manager
+      </div>
+      <button class="add-button">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          Add New Item
+      </button>
+  </header>
+
+  <div class="container">
+      <div class="modal">
+          <h2 class="modal-title">Add New Item</h2>
+          <form onsubmit="logInputs()" id="new-item-form">
+              <div class="form-group">
+                  <div class="form-field">
+                      <label for="itemName">Item Name</label>
+                      <input type="text" id="itemName" name="itemName">
+                  </div>
+                  <div class="form-field">
+                      <label for="category">Category</label>
+                      <input type="text" id="category" name="category">
+                  </div>
+              </div>
+              <div class="form-group">
+                  <div class="form-field">
+                      <label for="price">Price ($)</label>
+                      <input type="number" id="price" name="price" value="0">
+                  </div>
+                  <div class="form-field">
+                      <label for="quantity">Quantity</label>
+                      <input type="number" id="quantity" name="quantity" value="0">
+                  </div>
+              </div>
+              <div class="form-field">
+                  <label for="description">Description</label>
+                  <textarea id="description" name="description"></textarea>
+              </div>
+              <div class="form-actions">
+                <a href="index.html">
+                  <button type="button" class="btn btn-cancel">Cancel</button>
+                </a>  
+                  <button type="submit" class="btn btn-primary">Add Item</button>
+              </div>
+          </form>
+      </div>
+  </div>
+    </body>
+    <script src="script.js"></script>
+ </html>

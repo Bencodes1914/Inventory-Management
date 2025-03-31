@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css">
+        <title>Inventory Management.</title>
+        <script src="script.js"></script>
+    </head>
+    <body onload="getInventory()">
+     <header class="header">
+      <div class="header-title">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+              <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+              <line x1="12" y1="22.08" x2="12" y2="12"></line>
+          </svg>
+          Inventory Manager
+      </div>
+      <a href="newItem.html">
+      <button class="add-button">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          Add New Item
+      </button>
+      </a>
+  </header>
+      
+  <div class="search-container">
+   <div class="search-box">
+       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+           <circle cx="11" cy="11" r="8"></circle>
+           <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+       </svg>
+       <input type="text" placeholder="Search inventory...">
+   </div>
+</div>
+
+<table>
+   <thead>
+       <tr>
+           <th class="sortable">ITEM NAME</th>
+           <th>DESCRIPTION</th>
+           <th>CATEGORY</th>
+           <th>PRICE</th>
+           <th>QUANTITY</th>
+           <th>LAST UPDATED</th>
+           <th>ACTIONS</th>
+       </tr>
+   </thead>
+   <tbody id="inventory-body">
+       <tr>
+           <td>Laptop</td>
+           <td>High-performance business laptop</td>
+           <td><span class="category-badge">Electronics</span></td>
+           <td>$999.99</td>
+           <td>
+               <div class="quantity-control">
+                   <button class="quantity-btn">-</button>
+                   <span class="quantity-value">15</span>
+                   <button class="quantity-btn">+</button>
+               </div>
+           </td>
+           <td>19/03/2025</td>
+           <td>
+               <div class="action-btns">
+            <div class="edit-action">
+                <button class="edit-btn" onclick="showConfirmation('edit')">
+                    <img src="./Assets/editing.png" width="20" height="20" alt="Edit"/>
+                </button>
+                <div class="confirm-btns edit-confirm-btns" id="edit-confirm">
+                    <button class="confirm-btn" onclick="confirmAction('edit')">Confirm</button>
+                    <button class="cancel-btn" onclick="cancelAction('edit')">Cancel</button>
+                </div>
+            </div>
+            
+            <div class="delete-action">
+                <button class="delete-btn" onclick="showConfirmation('delete')">
+                    <img src="./Assets/delete (2).png" width="20" height="20" alt="Delete"/>
+                </button>
+                <div class="confirm-btns delete-confirm-btns" id="delete-confirm">
+                    <button class="confirm-btn" onclick="confirmAction('delete')">Confirm</button>
+                    <button class="cancel-btn" onclick="cancelAction('delete')">Cancel</button>
+                </div>
+            </div>
+        </div>
+           </td>
+       </tr>
+       <tr>
+           <td>Office Chair</td>
+           <td>Ergonomic office chair</td>
+           <td><span class="category-badge">Furniture</span></td>
+           <td>$249.99</td>
+           <td>
+               <div class="quantity-control">
+                   <button class="quantity-btn">-</button>
+                   <span class="quantity-value">8</span>
+                   <button class="quantity-btn">+</button>
+               </div>
+           </td>
+           <td>19/03/2025</td>
+           <td>
+            <div class="action-btns">
+             <div class="edit-action">
+                 <button class="edit-btn" onclick="showConfirmation('edit')">
+                     <img src="./Assets/editing.png" width="20" height="20" alt="Edit"/>
+                 </button>
+                 <div class="confirm-btns edit-confirm-btns" id="edit-confirm">
+                     <button class="confirm-btn" onclick="confirmAction('edit')">Confirm</button>
+                     <button class="cancel-btn" onclick="cancelAction('edit')">Cancel</button>
+                 </div>
+             </div>
+             
+             <div class="delete-action">
+                 <button class="delete-btn" onclick="showConfirmation('delete')">
+                     <img src="./Assets/delete (2).png" width="20" height="20" alt="Delete"/>
+                 </button>
+                 <div class="confirm-btns delete-confirm-btns" id="delete-confirm">
+                     <button class="confirm-btn" onclick="confirmAction('delete')">Confirm</button>
+                     <button class="cancel-btn" onclick="cancelAction('delete')">Cancel</button>
+                 </div>
+             </div>
+         </div>
+           </td>
+       </tr>
+       <tr>
+           <td>Wireless Mouse</td>
+           <td>Bluetooth wireless mouse</td>
+           <td><span class="category-badge">Accessories</span></td>
+           <td>$29.99</td>
+           <td>
+               <div class="quantity-control">
+                   <button class="quantity-btn">-</button>
+                   <span class="quantity-value">45</span>
+                   <button class="quantity-btn">+</button>
+               </div>
+           </td>
+           <td>19/03/2025</td>
+           <td>
+            <div class="action-btns">
+             <div class="edit-action">
+                 <button class="edit-btn" onclick="showConfirmation('edit')">
+                     <img src="./Assets/editing.png" width="20" height="20" alt="Edit"/>
+                 </button>
+                 <div class="confirm-btns edit-confirm-btns" id="edit-confirm">
+                     <button class="confirm-btn" onclick="confirmAction('edit')">Confirm</button>
+                     <button class="cancel-btn" onclick="cancelAction('edit')">Cancel</button>
+                 </div>
+             </div>
+             
+             <div class="delete-action">
+                 <button class="delete-btn" onclick="showConfirmation('delete')">
+                     <img src="./Assets/delete (2).png" width="20" height="20" alt="Delete"/>
+                 </button>
+                 <div class="confirm-btns delete-confirm-btns" id="delete-confirm">
+                     <button class="confirm-btn" onclick="confirmAction('delete')">Confirm</button>
+                     <button class="cancel-btn" onclick="cancelAction('delete')">Cancel</button>
+                 </div>
+             </div>
+         </div>
+           </td>
+       </tr>
+     
+   </tbody>
+</table>
+</div>
+   <div id="savedItems"></div>
+    </body>
+</html>
