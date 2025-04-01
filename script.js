@@ -49,6 +49,7 @@ function renderInventory(inventory) {
     }
 
     let inventoryTableRow = inventory.map((element) => {
+        const quantity = element.quantity ?? 0;
         return (
             `
                 <tr>
@@ -58,19 +59,21 @@ function renderInventory(inventory) {
                     <td>${element.price}</td>
                     <td>
                       <div class="quantity-control">
-                        <button class="quantity-btn" id="${element.id}_minus" onclick="handleQuantityButtonClick(this)">-</button>
+                        <button class="quantity-btn" id="${element.id}_minus" 
+                            ${quantity === 0 ? 'disabled' : ''} 
+                            onclick="handleQuantityButtonClick(this)">-</button>
                         <div class="quantity-value">
-                           ${element.quantity ?? 0}
+                           ${quantity}
                         </div>
-                        <button class="quantity-btn" id="${element.id}_plus" onclick="handleQuantityButtonClick(this)">+</button>
+                        <button class="quantity-btn" id="${element.id}_plus" 
+                            onclick="handleQuantityButtonClick(this)">+</button>
                        </div>
                     </td>
                     <td>${element.lastUpdated ?? "No date"}</td>
                 </tr>
             `
-        )
+        );
     });
-
    const tableBody= document.getElementById("inventory-body")
    tableBody.innerHTML = inventoryTableRow
 }
