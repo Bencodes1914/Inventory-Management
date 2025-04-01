@@ -1,58 +1,3 @@
-document.addEventListener('DOMContentLoaded', function() {
- const minusBtns = document.querySelectorAll('.quantity-btn:first-child');
- const plusBtns = document.querySelectorAll('.quantity-btn:last-child');
- 
- document.addEventListener('DOMContentLoaded', function() {
-    const sortableHeaders = document.querySelectorAll('th.sortable');
-    
-    sortableHeaders.forEach(sortableHeader => {
-        sortableHeader.addEventListener('click', function() {
-            const tbody = document.querySelector('tbody');
-            const rows = Array.from(tbody.querySelectorAll('tr'));
-            
-            rows.reverse().forEach(row => tbody.appendChild(row));
-        });
-    });
-});
-});
-
-function showConfirmation(actionType) {
- document.querySelectorAll('.confirm-btns').forEach(elem => {
-     elem.style.display = 'none';
- });
- 
- const confirmElement = document.getElementById(`${actionType}-confirm`);
- confirmElement.style.display = 'flex';
- 
- document.querySelectorAll('.edit-btn, .delete-btn').forEach(btn => {
-     btn.style.display = 'none';
- });
-}
-
-function confirmAction(actionType) {
- if (actionType === 'edit') {
-     alert('Editing confirmed');
- } else if (actionType === 'delete') {
-     alert('Delete confirmed');
- }
- 
- resetButtons();
-}
-
-function cancelAction(actionType) {
- resetButtons();
-}
-
-function resetButtons() {
- document.querySelectorAll('.confirm-btns').forEach(elem => {
-     elem.style.display = 'none';
- });
- 
- document.querySelectorAll('.edit-btn, .delete-btn').forEach(btn => {
-     btn.style.display = 'block';
- });
-}
-
 const itemForm = document.getElementById("new-item-form");
 if (itemForm) {
     itemForm.addEventListener("submit", (event) => {
@@ -68,6 +13,7 @@ function logInputs() {
     const description = document.getElementById('description').value;
 
     const newItemToInventory = {
+        id: new Date(),
         name: itemName,
         category: category,
         price: price === '' ? null : Number(price),
@@ -85,8 +31,6 @@ function logInputs() {
     history.back();
 }
 
-
-
 function getInventory(){
    const inventoryFromLocalStorage = localStorage.getItem("inventory");
     const inventoryJSON =  JSON.parse(inventoryFromLocalStorage)
@@ -97,7 +41,6 @@ function getInventory(){
 
    renderInventory(inventoryJSON)
 }
-
 
 function renderInventory(inventory) {
 
@@ -115,11 +58,11 @@ function renderInventory(inventory) {
                     <td>${element.price}</td>
                     <td>
                       <div class="quantity-control">
-                        <button class="quantity-btn">-</button>
+                        <button class="quantity-btn" id="${element.id}_minus" onclick="handleQuantityButtonClick(this)">-</button>
                         <div class="quantity-value">
                            ${element.quantity ?? 0}
                         </div>
-                        <button class="quantity-btn">+</button>
+                        <button class="quantity-btn" id="${element.id}_plus" onclick="handleQuantityButtonClick(this)">+</button>
                        </div>
                     </td>
                     <td>${element.lastUpdated ?? "No date"}</td>
@@ -132,3 +75,36 @@ function renderInventory(inventory) {
    tableBody.innerHTML = inventoryTableRow
 }
 
+function handleQuantityButtonClick(element) {
+    const localStorageData =  localStorage.getItem('inventory')
+    const localStorageParsed =  JSON.parse(localStorageData ?? [])
+
+    const checkId = (array) => {
+        return element.id.split("_")[0] === array.id
+    }
+    
+    let filterMatchingitem = localStorageParsed.find(checkId)
+
+    if (element.id.split("_")[1] == "minus") { 
+        const subtractOne = {
+            ...filterMatchingitem,
+            quantity: filterMatchingitem.quantity - 1
+        }
+    
+        const otherEntries = localStorageParsed.filter(data => data.id !== subtractOne.id)
+    
+        localStorage.setItem('inventory', JSON.stringify([...otherEntries, subtractOne]))
+    } else {
+        const addOne = {
+            ...filterMatchingitem,
+            quantity: filterMatchingitem.quantity + 1
+        }
+    
+        const otherEntries = localStorageParsed.filter(data => data.id !== addOne.id)
+    
+        localStorage.setItem('inventory', JSON.stringify([...otherEntries, addOne]))
+    }
+
+    getInventory()
+    
+}
