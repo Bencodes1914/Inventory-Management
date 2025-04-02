@@ -1,8 +1,8 @@
 const itemForm = document.getElementById("new-item-form");
 if (itemForm) {
     itemForm.addEventListener("submit", (event) => {
-        event.preventDefault();
-        logInputs();
+        event.preventDefault(); // Prevent default form submission
+        logInputs(); // Call logInputs only once here
     });
 }
 
@@ -25,8 +25,15 @@ function logInputs() {
 
     const inventoryFromLocalStorage = localStorage.getItem("inventory");
     const existingInventory = JSON.parse(inventoryFromLocalStorage) || [];
-    existingInventory.push(newItemToInventory);
-    localStorage.setItem("inventory", JSON.stringify(existingInventory));
+    
+    // Check if item with same ID already exists (just in case)
+    if (!existingInventory.some(item => item.id === newItemToInventory.id)) {
+        existingInventory.push(newItemToInventory);
+        localStorage.setItem("inventory", JSON.stringify(existingInventory));
+    }
+    
+    // Reset form and navigate back
+    itemForm.reset();
     history.back();
 }
 
@@ -48,7 +55,6 @@ function renderInventory(inventory) {
 
     let inventoryTableRow = inventory.map((element) => {
         const quantity = element.quantity ?? 0;
-        // Format price with Naira sign
         const formattedPrice = element.price !== null ? `₦${element.price.toLocaleString()}` : 'N/A';
         
         return (

@@ -28,38 +28,38 @@
   <div class="container">
       <div class="modal">
           <h2 class="modal-title">Add New Item</h2>
-          <form onsubmit="logInputs()" id="new-item-form">
-              <div class="form-group">
-                  <div class="form-field">
-                      <label for="itemName">Item Name</label>
-                      <input type="text" id="itemName" name="itemName">
-                  </div>
-                  <div class="form-field">
-                      <label for="category">Category</label>
-                      <input type="text" id="category" name="category">
-                  </div>
-              </div>
-              <div class="form-group">
-                  <div class="form-field">
-                      <label for="price">Price (₦)</label>
-                      <input type="number" id="price" name="price" value="0">
-                  </div>
-                  <div class="form-field">
-                      <label for="quantity">Quantity</label>
-                      <input type="number" id="quantity" name="quantity" value="0">
-                  </div>
-              </div>
-              <div class="form-field">
-                  <label for="description">Description</label>
-                  <textarea id="description" name="description"></textarea>
-              </div>
-              <div class="form-actions">
+          <form id="new-item-form">
+            <div class="form-group">
+                <div class="form-field">
+                    <label for="itemName">Item Name</label>
+                    <input type="text" id="itemName" name="itemName">
+                </div>
+                <div class="form-field">
+                    <label for="category">Category</label>
+                    <input type="text" id="category" name="category">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-field">
+                    <label for="price">Price (₦)</label>
+                    <input type="number" id="price" name="price" value="0">
+                </div>
+                <div class="form-field">
+                    <label for="quantity">Quantity</label>
+                    <input type="number" id="quantity" name="quantity" value="0">
+                </div>
+            </div>
+            <div class="form-field">
+                <label for="description">Description</label>
+                <textarea id="description" name="description"></textarea>
+            </div>
+            <div class="form-actions">
                 <a href="index.html">
-                  <button type="button" class="btn btn-cancel">Cancel</button>
+                    <button type="button" class="btn btn-cancel">Cancel</button>
                 </a>  
-                  <button type="submit" class="btn btn-primary">Add Item</button>
-              </div>
-          </form>
+                <button type="submit" class="btn btn-primary">Add Item</button>
+            </div>
+        </form>
       </div>
   </div>
     </body>
