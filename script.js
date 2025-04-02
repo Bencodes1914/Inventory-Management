@@ -1,3 +1,32 @@
+document.addEventListener("DOMContentLoaded", () => {
+    const searchInput = document.querySelector(".search-box input");
+    if (searchInput) {
+        console.log("Search input found");
+        searchInput.addEventListener("input", () => {
+            const searchTerm = searchInput.value.toLowerCase();
+            console.log("Search term:", searchTerm);
+            filterInventory(searchTerm);
+        });
+    } else {
+        console.error("Search input still not found after DOM load");
+    }
+});
+
+function filterInventory(searchTerm) {
+    const inventory = JSON.parse(localStorage.getItem("inventory") || '[]');
+    console.log("Inventory:", inventory);
+    const filteredInventory = inventory.filter(item => {
+        return (
+            (item.name || "").toLowerCase().includes(searchTerm) ||
+            (item.description || "").toLowerCase().includes(searchTerm) ||
+            (item.category || "").toLowerCase().includes(searchTerm) ||
+            (item.price || 0).toString().includes(searchTerm) ||
+            (item.quantity || 0).toString().includes(searchTerm)
+        );
+    });
+    console.log("Filtered:", filteredInventory);
+    renderInventory(filteredInventory);
+}
 const itemForm = document.getElementById("new-item-form");
 if (itemForm) {
     itemForm.addEventListener("submit", (event) => {
