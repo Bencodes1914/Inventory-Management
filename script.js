@@ -1,9 +1,9 @@
 const itemForm = document.getElementById("new-item-form");
 if (itemForm) {
     itemForm.addEventListener("submit", (event) => {
-        event.preventDefault()
-        logInputs(); // Added function call to actually process the form
-    })
+        event.preventDefault();
+        logInputs();
+    });
 }
 
 function logInputs() {
@@ -14,12 +14,13 @@ function logInputs() {
     const description = document.getElementById('description').value;
 
     const newItemToInventory = {
-        id: new Date().toISOString(), // Changed to string for better consistency
+        id: new Date().toISOString(),
         name: itemName,
         category: category,
         price: price === '' ? null : Number(price),
         quantity: quantity === '' ? null : Number(quantity),
-        description: description || null
+        description: description || null,
+        lastUpdated: new Date().toLocaleDateString() // Added formatted date
     };
 
     const inventoryFromLocalStorage = localStorage.getItem("inventory");
@@ -66,7 +67,7 @@ function renderInventory(inventory) {
                             onclick="handleQuantityButtonClick(this)">+</button>
                        </div>
                     </td>
-                    <td>${element.lastUpdated ?? "No date"}</td>
+                    <td>${element.lastUpdated}</td>
                     <td>
                         <button class="edit-btn" onclick="editItem('${element.id}')">Edit</button>
                         <button class="delete-btn" onclick="deleteItem('${element.id}')">Delete</button>
@@ -76,10 +77,9 @@ function renderInventory(inventory) {
         );
     });
     const tableBody = document.getElementById("inventory-body");
-    tableBody.innerHTML = inventoryTableRow.join(''); // Join array to remove commas
+    tableBody.innerHTML = inventoryTableRow.join('');
 }
 
-// Existing handleQuantityButtonClick function remains unchanged
 function handleQuantityButtonClick(element) {
     const localStorageData = localStorage.getItem('inventory');
     const localStorageParsed = JSON.parse(localStorageData ?? []);
@@ -88,20 +88,22 @@ function handleQuantityButtonClick(element) {
         return element.id.split("_")[0] === array.id;
     }
     
-    let filterMatchingitem = localStorageParsed.find(checkId);
+    let filterMatchingItem = localStorageParsed.find(checkId);
 
     if (element.id.split("_")[1] == "minus") { 
         const subtractOne = {
-            ...filterMatchingitem,
-            quantity: filterMatchingitem.quantity - 1
-        }
+            ...filterMatchingItem,
+            quantity: filterMatchingItem.quantity - 1,
+            lastUpdated: new Date().toLocaleDateString() // Update date on quantity change
+        };
         const otherEntries = localStorageParsed.filter(data => data.id !== subtractOne.id);
         localStorage.setItem('inventory', JSON.stringify([...otherEntries, subtractOne]));
     } else {
         const addOne = {
-            ...filterMatchingitem,
-            quantity: filterMatchingitem.quantity + 1
-        }
+            ...filterMatchingItem,
+            quantity: filterMatchingItem.quantity + 1,
+            lastUpdated: new Date().toLocaleDateString() // Update date on quantity change
+        };
         const otherEntries = localStorageParsed.filter(data => data.id !== addOne.id);
         localStorage.setItem('inventory', JSON.stringify([...otherEntries, addOne]));
     }
@@ -109,7 +111,6 @@ function handleQuantityButtonClick(element) {
     getInventory();
 }
 
-// New functions for edit and delete
 function deleteItem(itemId) {
     if (confirm('Are you sure you want to delete this item?')) {
         const inventory = JSON.parse(localStorage.getItem('inventory') || '[]');
@@ -124,12 +125,15 @@ function editItem(itemId) {
     const itemToEdit = inventory.find(item => item.id === itemId);
     
     if (itemToEdit) {
-        // This is a simple example - you might want to redirect to a form page
         const newName = prompt('Enter new name:', itemToEdit.name);
         if (newName !== null) {
             const updatedInventory = inventory.map(item => {
                 if (item.id === itemId) {
-                    return { ...item, name: newName };
+                    return { 
+                        ...item, 
+                        name: newName,
+                        lastUpdated: new Date().toLocaleDateString() // Update date on edit
+                    };
                 }
                 return item;
             });
