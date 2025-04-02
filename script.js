@@ -20,7 +20,7 @@ function logInputs() {
         price: price === '' ? null : Number(price),
         quantity: quantity === '' ? null : Number(quantity),
         description: description || null,
-        lastUpdated: new Date().toLocaleDateString() // Added formatted date
+        lastUpdated: new Date().toLocaleDateString()
     };
 
     const inventoryFromLocalStorage = localStorage.getItem("inventory");
@@ -48,13 +48,16 @@ function renderInventory(inventory) {
 
     let inventoryTableRow = inventory.map((element) => {
         const quantity = element.quantity ?? 0;
+        // Format price with Naira sign
+        const formattedPrice = element.price !== null ? `₦${element.price.toLocaleString()}` : 'N/A';
+        
         return (
             `
                 <tr>
                     <td>${element.name}</td>
                     <td>${element.description ?? "No description"}</td>
                     <td>${element.category}</td>
-                    <td>${element.price}</td>
+                    <td>${formattedPrice}</td>
                     <td>
                       <div class="quantity-control">
                         <button class="quantity-btn" id="${element.id}_minus" 
@@ -94,7 +97,7 @@ function handleQuantityButtonClick(element) {
         const subtractOne = {
             ...filterMatchingItem,
             quantity: filterMatchingItem.quantity - 1,
-            lastUpdated: new Date().toLocaleDateString() // Update date on quantity change
+            lastUpdated: new Date().toLocaleDateString()
         };
         const otherEntries = localStorageParsed.filter(data => data.id !== subtractOne.id);
         localStorage.setItem('inventory', JSON.stringify([...otherEntries, subtractOne]));
@@ -102,7 +105,7 @@ function handleQuantityButtonClick(element) {
         const addOne = {
             ...filterMatchingItem,
             quantity: filterMatchingItem.quantity + 1,
-            lastUpdated: new Date().toLocaleDateString() // Update date on quantity change
+            lastUpdated: new Date().toLocaleDateString()
         };
         const otherEntries = localStorageParsed.filter(data => data.id !== addOne.id);
         localStorage.setItem('inventory', JSON.stringify([...otherEntries, addOne]));
@@ -132,7 +135,7 @@ function editItem(itemId) {
                     return { 
                         ...item, 
                         name: newName,
-                        lastUpdated: new Date().toLocaleDateString() // Update date on edit
+                        lastUpdated: new Date().toLocaleDateString()
                     };
                 }
                 return item;
