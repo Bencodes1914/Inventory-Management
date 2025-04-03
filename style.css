@@ -213,3 +213,125 @@ td {
  font-size: 12px;
  cursor: pointer;
 }
+
+@media (max-width: 1024px) {
+ .container {
+   max-width: 100%;
+ }
+}
+
+/* Tablet adjustments */
+@media (max-width: 768px) {
+ .header {
+   padding: 0.75rem 1.5rem;
+ }
+ 
+ th, td {
+   padding: 10px 15px;
+ }
+ 
+ .search-container {
+   padding: 12px 15px;
+ }
+}
+
+/* Mobile adjustments */
+@media (max-width: 576px) {
+ body {
+   padding: 10px;
+ }
+ 
+ .header {
+   flex-direction: column;
+   gap: 10px;
+   padding: 0.75rem 1rem;
+ }
+ 
+ .header-title {
+   font-size: 1.1rem;
+ }
+ 
+ .search-container {
+   padding: 10px;
+ }
+ 
+ .search-box input {
+   padding: 8px 8px 8px 30px;
+ }
+ 
+ /* Table responsive adjustments */
+ table, thead, tbody, th, td, tr {
+   display: block;
+ }
+ 
+ thead tr {
+   position: absolute;
+   top: -9999px;
+   left: -9999px;
+ }
+ 
+ tr {
+   margin-bottom: 15px;
+   border: 1px solid #dee2e6;
+   border-radius: 4px;
+ }
+ 
+ td {
+   border: none;
+   border-bottom: 1px solid #eee;
+   position: relative;
+   padding-left: 50%;
+   text-align: right;
+ }
+ 
+ td:before {
+   position: absolute;
+   top: 12px;
+   left: 15px;
+   width: 45%;
+   padding-right: 10px;
+   white-space: nowrap;
+   text-align: left;
+   font-weight: bold;
+   content: attr(data-label);
+ }
+ 
+ .action-btns {
+   justify-content: flex-end;
+ }
+ 
+ .quantity-control {
+   justify-content: flex-end;
+ }
+ 
+ /* Last item in row doesn't need border */
+ tr td:last-child {
+   border-bottom: 0;
+ }
+}
+
+/* Extra small devices */
+@media (max-width: 375px) {
+ .add-button {
+   padding: 0.4rem 0.75rem;
+   font-size: 0.8rem;
+ }
+ 
+ .header-title {
+   font-size: 1rem;
+ }
+ 
+ td {
+   padding: 10px 10px 10px 45%;
+   font-size: 13px;
+ }
+ 
+ .action-btns {
+   gap: 5px;
+ }
+ 
+ .edit-btn, .delete-btn {
+   width: 40px;
+   height: 28px;
+ }
+}
