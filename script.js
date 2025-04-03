@@ -27,6 +27,7 @@ function filterInventory(searchTerm) {
     console.log("Filtered:", filteredInventory);
     renderInventory(filteredInventory);
 }
+
 const itemForm = document.getElementById("new-item-form");
 if (itemForm) {
     itemForm.addEventListener("submit", (event) => {
@@ -74,7 +75,9 @@ function getInventory() {
         return;
     }
 
-    renderInventory(inventoryJSON);
+    // Sort the inventory before rendering
+    const sortedInventory = [...inventoryJSON].sort((a, b) => a.name.localeCompare(b.name));
+    renderInventory(sortedInventory);
 }
 
 function renderInventory(inventory) {
@@ -82,7 +85,10 @@ function renderInventory(inventory) {
         return;
     }
 
-    let inventoryTableRow = inventory.map((element) => {
+    // Sort the inventory by name to ensure consistent order
+    const sortedInventory = [...inventory].sort((a, b) => a.name.localeCompare(b.name));
+
+    let inventoryTableRow = sortedInventory.map((element) => {
         const quantity = element.quantity ?? 0;
         const formattedPrice = element.price !== null ? `₦${element.price.toLocaleString()}` : 'N/A';
         
@@ -122,30 +128,25 @@ function handleQuantityButtonClick(element) {
     const localStorageData = localStorage.getItem('inventory');
     const localStorageParsed = JSON.parse(localStorageData ?? []);
 
-    const checkId = (array) => {
-        return element.id.split("_")[0] === array.id;
-    }
-    
-    let filterMatchingItem = localStorageParsed.find(checkId);
+    const itemId = element.id.split("_")[0];
+    const isIncrement = element.id.split("_")[1] === "plus";
 
-    if (element.id.split("_")[1] == "minus") { 
-        const subtractOne = {
-            ...filterMatchingItem,
-            quantity: filterMatchingItem.quantity - 1,
-            lastUpdated: new Date().toLocaleDateString()
-        };
-        const otherEntries = localStorageParsed.filter(data => data.id !== subtractOne.id);
-        localStorage.setItem('inventory', JSON.stringify([...otherEntries, subtractOne]));
-    } else {
-        const addOne = {
-            ...filterMatchingItem,
-            quantity: filterMatchingItem.quantity + 1,
-            lastUpdated: new Date().toLocaleDateString()
-        };
-        const otherEntries = localStorageParsed.filter(data => data.id !== addOne.id);
-        localStorage.setItem('inventory', JSON.stringify([...otherEntries, addOne]));
-    }
+    // Update the inventory array while preserving the order
+    const updatedInventory = localStorageParsed.map(item => {
+        if (item.id === itemId) {
+            return {
+                ...item,
+                quantity: isIncrement ? item.quantity + 1 : Math.max(0, item.quantity - 1),
+                lastUpdated: new Date().toLocaleDateString()
+            };
+        }
+        return item;
+    });
 
+    // Save the updated inventory back to localStorage
+    localStorage.setItem('inventory', JSON.stringify(updatedInventory));
+
+    // Re-render the table
     getInventory();
 }
 
