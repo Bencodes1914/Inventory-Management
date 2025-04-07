@@ -31,8 +31,8 @@ function filterInventory(searchTerm) {
 const itemForm = document.getElementById("new-item-form");
 if (itemForm) {
     itemForm.addEventListener("submit", (event) => {
-        event.preventDefault(); // Prevent default form submission
-        logInputs(); // Call logInputs only once here
+        event.preventDefault(); 
+        logInputs(); 
     });
 }
 
@@ -56,13 +56,11 @@ function logInputs() {
     const inventoryFromLocalStorage = localStorage.getItem("inventory");
     const existingInventory = JSON.parse(inventoryFromLocalStorage) || [];
     
-    // Check if item with same ID already exists (just in case)
     if (!existingInventory.some(item => item.id === newItemToInventory.id)) {
         existingInventory.push(newItemToInventory);
         localStorage.setItem("inventory", JSON.stringify(existingInventory));
     }
     
-    // Reset form and navigate back
     itemForm.reset();
     history.back();
 }
@@ -75,7 +73,6 @@ function getInventory() {
         return;
     }
 
-    // Sort the inventory before rendering
     const sortedInventory = [...inventoryJSON].sort((a, b) => a.name.localeCompare(b.name));
     renderInventory(sortedInventory);
 }
@@ -85,7 +82,6 @@ function renderInventory(inventory) {
         return;
     }
 
-    // Sort the inventory by name to ensure consistent order
     const sortedInventory = [...inventory].sort((a, b) => a.name.localeCompare(b.name));
 
     let inventoryTableRow = sortedInventory.map((element) => {
@@ -131,7 +127,6 @@ function handleQuantityButtonClick(element) {
     const itemId = element.id.split("_")[0];
     const isIncrement = element.id.split("_")[1] === "plus";
 
-    // Update the inventory array while preserving the order
     const updatedInventory = localStorageParsed.map(item => {
         if (item.id === itemId) {
             return {
@@ -143,10 +138,8 @@ function handleQuantityButtonClick(element) {
         return item;
     });
 
-    // Save the updated inventory back to localStorage
     localStorage.setItem('inventory', JSON.stringify(updatedInventory));
 
-    // Re-render the table
     getInventory();
 }
 
